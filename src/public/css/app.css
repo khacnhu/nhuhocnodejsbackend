@@ -1,0 +1,25 @@
+h1 {
+  font-size: 2rem;
+  color: orange;
+}
+
+h2 {
+  color: red;
+}
+
+.btn {
+  border: 2px solid green;
+  color: orange;
+  margin-left: 200px;
+}
+
+.ulli {
+  color: red;
+  font-size: 1.6rem;
+}
+
+.search-form {
+  margin-top: 10px;
+}
+
+/*# sourceMappingURL=app.css.map */

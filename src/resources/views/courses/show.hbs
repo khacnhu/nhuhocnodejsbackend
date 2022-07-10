@@ -1,0 +1,17 @@
+<div class = "mt-4">
+    <div class = "row">
+        <div class = 'col-lg-3' style = "background-color: rgba(0,0,0,0.2)">
+            <button style="color: blue">HOC NGAY</button>   
+            <div class="description" style="color:#255; margin-top: 15px">CHUC BAN CO MOT KHOA HOC VUI VE O TRANG TRAN KHAC NHU</div>
+            <div class = "mota" style = "color: red; margin-top: 15px">THOI GIAN KHOA HOC TRONG VONG 3 THANG</div>
+            <div class = "count" style = "color: green; margin-top: 15px">TONG SO VIDEO TRONG KHOA HOC: 30 VIDEO</div>
+        </div>
+        <div class="col-lg-9" style="text-align: center; background-color: rgba(0,0,0,0.1)">
+           <h2>{{course.name}}</h2>
+           <iframe width="560" height="315" src="https://www.youtube.com/embed/{{course.videoID}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+           <p style="font-size: 24px; font-weight: 500;">{{course.description}}</p>
+        </div>
+        
+    </div>
+
+</div>

@@ -18,7 +18,6 @@ h2 {
   margin-top: 10px; }
 
 .nav-create-course {
-  display: block;
   color: pink;
   text-decoration: none;
   line-height: 1.5;
@@ -26,3 +25,6 @@ h2 {
 
 .nav-my-course {
   line-height: 1.5; }
+
+navbar navbar-expand-lg {
+  background-color: aqua; }

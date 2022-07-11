@@ -1,0 +1,29 @@
+
+{{!-- <h2>ĐĂNG KÝ KHÓA HỌC LẬP TRÌNH WEB CỦA TRẦN KHẮC NHU</h2> --}}
+
+<h2>CẬP NHẬT LẠI KHÓA HỌC</h2>
+<form action="/courses/{{course._id}}?_method=PUT" method="POST">
+    <div class="form-group">
+        <label for="name">TÊN KHÓA HỌC</label>
+        <input type="text" class="form-control" value="{{course.name}}" id="name" name="name" placeholder="Nhập khóa học muốn học">
+    </div>
+    <div class="form-group">
+        <label for="description">MÔ TẢ</label>  
+        <input type="text" class="form-control" value="{{course.description}}" id="description" name="description" placeholder="Nhập mô tả muốn học">
+    </div>
+    <div class="form-group">   
+        <label for="videoID">VIDEOID</label>
+        <input type="text" class="form-control" value="{{course.videoID}}" id="videoID" name="videoID" placeholder="Nhập video bạn muốn học">
+    </div>
+    <div class="form-group">
+        <label for="level">TRÌNH ĐỘ</label>
+        <input type="text" class="form-control" value="{{course.level}}" id="level" name="level" placeholder="Nhập trình độ muốn học">
+    </div>
+    <button type="submit" class="btn btn-primary" style="color: yellow;">CHỈNH SỬA KHÓA HỌC</button>
+</form>
+
+<br>
+
+
+
+    

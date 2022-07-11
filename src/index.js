@@ -6,6 +6,9 @@ const app = express();
 const port = 8080;
 const route = require("./routes/indexroute");
 
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
+
 const db = require("./config/db/index")
 
 
@@ -27,7 +30,12 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use(morgan('combined'))
 
 // template engine
-app.engine('hbs', engine({ extname: '.hbs'}));
+app.engine('hbs', engine({ 
+  extname: '.hbs',
+  helpers: {
+    sum: (a, b) => a + b,
+  }
+}));
 app.set('view engine', 'hbs');
 app.set("views", path.join(__dirname, "resources/views")); 
 

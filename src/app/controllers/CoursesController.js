@@ -45,6 +45,30 @@ class CoursesController {
             .catch(next)
     }
 
+
+    //DELETE ID KHOA HOC
+    destroy(req, res, next){    
+        Course.delete({_id: req.params.id})
+            .then(() => res.redirect("back"))
+            .catch(next)
+    }
+
+    //PATCH RESTORE COURSES
+    restore(req, res, next){
+        Course.restore({_id: req.params.id})
+            .then(() => res.redirect("back"))
+            .catch(next)
+    }
+
+    //forceDelete Course (XOA VINH VIEN KHOA HOC)
+    forceDestroy(req, res, next){
+        Course.deleteOne({_id: req.params.id})
+            .then(() => res.redirect("back"))
+            .catch(next)
+    }
+
+    
+
 }
 
 module.exports = new CoursesController();

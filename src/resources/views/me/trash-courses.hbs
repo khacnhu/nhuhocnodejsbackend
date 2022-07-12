@@ -1,8 +1,12 @@
 <div class = "mt-4" style="text-align:center;">
     <table class="table">
-        <h3>KHÓA HỌC CỦA TÔI</h3><table class="table">
+        <h3 style="color: red;">
+          KHÓA HỌC ĐÃ XÓA
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+          <span class="material-symbols-outlined" style="font-size: 80px; transform: translateY(26px)">delete</span>
+        </h3><table class="table">
         <div>
-          <a href="/me/trash/courses" style="display:block; margin-bottom: 32px; font-size:24px">THÙNG RÁC</a>
+          <a href="/me/stored/courses" style="display:block; margin-bottom: 32px; font-size:24px">QUAY LẠI DANH SANH KHÓA HỌC</a>
         </div>
 
         <thead>
@@ -23,8 +27,8 @@
                 <td>{{this.level}}</td>
                 <td>{{this.createdAt}}</td>
                 <td>
-                    <a href = "/courses/{{this._id}}/edit" class="btn-update" style="margin:0px 16px">Sửa</a>
-                    <a href = "/courses" class = "btn-delete" data-toggle="modal" data-whatever="{{this._id}}" data-target="#delete-course-modal">Xóa</a>
+                    <a href = "#" style="margin:0px 16px" data-id = "{{this._id}}" class = "btn-restore">Khôi phục</a>
+                    <a href = "/courses" class = "btn-delete" data-toggle="modal" data-whatever="{{this._id}}" data-target="#delete-course-modal">Xóa Vĩnh Viễn</a>
                 </td> 
             </tr>
             {{else}}
@@ -64,6 +68,8 @@
 
 <form name = "delete-course-form" method="POST"></form>
 
+<form name = "restore-course-form" method="POST"></form>
+
 
 {{!-- //src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" --}}
 
@@ -76,15 +82,31 @@
         var btnDeleteCourse = document.getElementById("btn-delete-course")
         console.log(courseID)
 
+        var restoreForm = document.forms["restore-course-form"]
+        console.log(restoreForm)
+
+        var restoredBtn = $(".btn-restore")
+        console.log(restoredBtn)
+
+        restoredBtn.click(function(e){
+          e.preventDefault();
+          var courseId = $(this).data("id");
+          console.log(courseId);
+            restoreForm.action = "/courses/" + courseId + "/restore?_method=PATCH";
+            restoreForm.submit();
+        })
+        
         $('#delete-course-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var courseID = button.data('whatever')
             console.log(courseID);
 
         btnDeleteCourse.onclick = function() {
-        deleteForm.action = "/courses/" + courseID + "?_method=DELETE";
+        deleteForm.action = "/courses/" + courseID + "/force?_method=DELETE";
         deleteForm.submit();
         }
+
+        
 })
 
 })

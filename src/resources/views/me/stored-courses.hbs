@@ -1,13 +1,32 @@
-<div class = "mt-4" style="text-align:center;">
+<form class = "mt-4" name = "container-form" method="POST" action="/courses/handle-form-action" style="text-align:center;">
     <table class="table">
         <h3>KHÓA HỌC CỦA TÔI</h3><table class="table">
         <div>
-          <a href="/me/trash/courses" style="display:block; margin-bottom: 32px; font-size:24px">THÙNG RÁC</a>
+          <a href="/me/trash/courses" style="display:block; margin-bottom: 32px; font-size:24px">THÙNG RÁC ({{deleteCourses}})</a>
+        </div>
+
+        <div class = "all-check-box-courses">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
+              <label class="form-check-label" for="checkbox-all">
+                CHỌN TẤT CẢ
+              </label>
+            </div>
+            
+            <select class="selector" name = "action" required>
+              <option value = "">--CHỌN HÀNH ĐỘNG--</option>
+              <option value="delete">XÓA</option>
+              
+            </select>
+            
+            <button class = "btn-thuchien" disabled>THỰC HIỆN</button>
+
         </div>
 
         <thead>
             <tr>
-                <th scope="col">#</th>
+                <th>CHECK</th>
+                <th scope="col">STT</th>
                 <th scope="col">TÊN KHÓA HỌC</th>
                 <th scope="col">TRÌNH ĐỘ</th>
                 <th scope="col">THỜI GIAN TẠO</th>
@@ -18,6 +37,11 @@
         <tbody>
             {{#each courses}}
             <tr>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{this._id}}" id = "{{this._id}}" name = "courseIds[]">
+                  </div>
+                </td>
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.level}}</td>
@@ -39,9 +63,9 @@
     
         </tbody>
     </table>
-</div>
+</form>
 
-
+{{!-- //CHECKBOX MODAL HIEN RA KHI MUON XOA VINH VIEN HAY KHONG XOA --}}
 <div class="modal" tabindex="-1" role="dialog" id="delete-course-modal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -62,6 +86,9 @@
   </div>
 </div>
 
+
+
+{{!-- //DELETE HIDDEN FORM/ --}}
 <form name = "delete-course-form" method="POST"></form>
 
 
@@ -72,10 +99,63 @@
     document.addEventListener("DOMContentLoaded", function(event) {
         var courseID;
         var deleteForm = document.forms["delete-course-form"];
-        console.log(deleteForm)
-        var btnDeleteCourse = document.getElementById("btn-delete-course")
-        console.log(courseID)
 
+        var btnDeleteCourse = document.getElementById("btn-delete-course")
+        var checkboxAll = $("#checkbox-all");
+    
+        var courseItemCheckbox = $('input[name = "courseIds[]"]')
+
+        var checkSubmitBtn = $(".btn-thuchien")
+        console.log(checkSubmitBtn)
+
+        var containerForm = document.forms["container-form"]
+        console.log(containerForm);
+        
+        $.fn.hasAttr = function(name) {  
+          return this.attr(name) !== undefined;
+        };
+
+        checkSubmitBtn.click(function(e){
+          e.preventDefault();
+          var isSubmitable = !$(this).hasAttr("disabled");
+          if (isSubmitable){
+            containerForm.submit();
+          }else{
+            console.log('ERROR SUBMIT')
+          }
+        })
+        
+
+        //checkboxALL (CHECK VÔ CÁC Ô CHECKBOX Ở GIỎ HÀNG KHÓA HỌC)
+        checkboxAll.change(function(){
+          var isCheckBoxAll = $(this).prop("checked");
+          courseItemCheckbox.prop("checked", isCheckBoxAll);
+          rerenderCheckSubmit()
+      
+        })
+
+        courseItemCheckbox.change(function() {
+          var isCheckBoxAll = courseItemCheckbox.length === $('input[name = "courseIds[]"]:checked').length
+          if (!isCheckBoxAll){
+            checkboxAll.prop("checked", false)
+          }else{
+            checkboxAll.prop("checked", true)
+          }
+          rerenderCheckSubmit()
+        })
+
+        function rerenderCheckSubmit(){
+          var checkCount = $('input[name = "courseIds[]"]:checked').length
+          console.log(checkCount)
+          if (checkCount > 0){
+            checkSubmitBtn.removeAttr("disabled", false)
+          } else {
+            checkSubmitBtn.attr("disabled", true)
+          }
+        }
+        
+
+        //XOA CAC GIO HANG HIEN MODAL DE MUON XOA VINH VIEN HAY KHONG
         $('#delete-course-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var courseID = button.data('whatever')

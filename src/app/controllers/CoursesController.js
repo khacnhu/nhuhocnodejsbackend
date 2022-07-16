@@ -67,7 +67,21 @@ class CoursesController {
             .catch(next)
     }
 
-    
+    //POST handlerform course (nop khoa hoc o nut submit vs ô option xóa của chọn hành đống)
+    handleFormAction(req, res, next){
+        switch (req.body.action){
+            case "delete":
+                Course.delete({_id: {$in : req.body.courseIds}})
+                    .then(() => res.redirect("back"))
+                    .catch(next)
+                break;
+            case "":
+                res.send("Moi ban nhap lai hanh dong can lam")
+                break;
+            default:
+                res.json({message: 'da xay ra loi roi'})
+        }       
+    }
 
 }
 

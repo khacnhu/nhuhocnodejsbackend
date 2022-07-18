@@ -4,7 +4,7 @@
         <div>
           <a href="/me/trash/courses" style="display:block; margin-bottom: 32px; font-size:24px">THÙNG RÁC ({{deleteCourses}})</a>
         </div>
-
+        {{?_sort.type}}
         <div class = "all-check-box-courses">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="" id="checkbox-all">
@@ -27,9 +27,19 @@
             <tr>
                 <th>CHECK</th>
                 <th scope="col">STT</th>
-                <th scope="col">TÊN KHÓA HỌC</th>
-                <th scope="col">TRÌNH ĐỘ</th>
-                <th scope="col">THỜI GIAN TẠO</th>
+                <th scope="col">
+                  TÊN KHÓA HỌC
+                  {{{sortable "name" _sort}}}
+                </th>
+                <th scope="col">
+                  TRÌNH ĐỘ  
+                  {{{sortable "level" _sort}}}
+
+                </th>
+                <th scope="col">
+                    THỜI GIAN TẠO
+                   {{{sortable "createdAt" _sort}}}
+                </th>
                 <th scope="col">ĐIỀU CHỈNH</th>
             </tr>
         </thead>

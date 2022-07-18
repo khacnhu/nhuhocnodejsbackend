@@ -1,3 +1,4 @@
+const SortMiddleware = require("./app/middleware/SortMiddleware")
 const path = require("path");
 const express = require('express');
 const morgan = require("morgan");
@@ -9,11 +10,13 @@ const route = require("./routes/indexroute");
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
-const db = require("./config/db/index")
+const db = require("./config/db/index");
+const router = require("./routes/new");
 
 
 //Connect to DB
 db.connect();
+app.use(SortMiddleware);  
 // var bodyParser = require('body-parser');
 // parse application/x-www-form-urlencoded, basically can only parse incoming Request Object if strings or arrays
 // app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,14 +35,40 @@ app.use(express.static(path.join(__dirname, "public")));
 // template engine
 app.engine('hbs', engine({ 
   extname: '.hbs',
-  helpers: {
-    sum: (a, b) => a + b,
-  }
+  helpers: require("./helper/handlerbar")
+  
 }));
 app.set('view engine', 'hbs');
 app.set("views", path.join(__dirname, "resources/views")); 
 
 // console.log(__dirname)
+
+// function bacbaove (req, res, next) {
+//   if (["vethuong", "vevip"].includes(req.query.ve)){
+//     req.firstname = "nhu"
+//     req.lastname = "tran"
+//     return next();
+//   }
+//   res.status(403).json({message: "access denied"})
+// }
+// app.use(bacbaove)
+
+app.get("/middleware", 
+  // function(req, res, next) {
+  //   if (["vethuong", "vevip"].includes(req.query.ve)){
+  //     req.firstname = "nhu"
+  //     req.lastname = "tran"
+  //     return next();
+  //   }
+  //   res.status(403).json({message: "access denied"})
+  // },
+  function(req, res, next){
+    res.json({
+      message: "MIDDLEWARE",
+      firstname: req.firstname,
+      lastname: req.lastname
+    })
+})
 
 route(app)
 
@@ -59,6 +88,8 @@ route(app)
 //   console.log(req.query.author);
 //   res.render("search")s
 // })
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`)
 })

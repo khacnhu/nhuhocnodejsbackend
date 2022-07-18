@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 
 
 
-const Course = new Schema({
+const CourseSchema = new Schema({
   name: {type: String},
   description: {type: String},
   image: {type: String},
@@ -23,9 +23,19 @@ const Course = new Schema({
   timestamps: true
 });
 
+CourseSchema.query.sortable = function(req){
+  const isValidType = ["asc", "desc"].includes(req.query.type)
+  if (req.query.hasOwnProperty("_sort")){
+      return this.sort({[req.query.column]: isValidType ? req.query.type: "desc"})
+  }
+  return this;
+
+}
+
+
 mongoose.plugin(slug);
-Course.plugin(mongooseDelete,{deletedAt:true, overrideMethods: 'all' });
+CourseSchema.plugin(mongooseDelete,{deletedAt:true, overrideMethods: 'all' });
 
 
 
-module.exports = mongoose.model('Course', Course);
+module.exports = mongoose.model('Course', CourseSchema);

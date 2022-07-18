@@ -76,7 +76,7 @@ class CoursesController {
                     .catch(next)
                 break;
             case "":
-                res.send("Moi ban nhap lai hanh dong can lam")
+                res.send("MOI BAN NHAP LAI HANH DONG")
                 break;
             default:
                 res.json({message: 'da xay ra loi roi'})
